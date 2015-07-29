@@ -41,9 +41,47 @@ def login():
 def process_login():
     """Process login form: Authenticate user and if new user, add to database"""
 
-    email = request.form["email"]
-    password = request.form["password"]
+    email_entered = request.form.get("email")
+    password_entered = request.form.get("password")
     
+    try:
+        user_queried = User.query.filter_by(email=email_entered).one()
+        if user_queried.password != password_entered:
+            flash("Password is incorrect. Please re-enter.")
+            return redirect('/login') #re-enter password
+        else:
+            loggedin_user_id = user_queried.user_id
+
+    except:
+        new_user = User(
+        email=email_entered,
+        password=password_entered
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+        loggedin_user_id = new_user.user_id
+
+    #adding logged in user to session
+    session['user_id'] = loggedin_user_id 
+
+    #created new user or validated existing user password and redirecting to home
+    flash("Logged in")
+    return redirect('/') 
+
+@app.route('/logout')
+def logout():
+    """Logout route that redirects to the homepage"""
+    flash("Logged out")
+
+    print "before: ", session['user_id']
+
+    session['user_id'] = None
+
+    print "after: ", session['user_id']
+
+    return redirect('/')
+
 
 
 
