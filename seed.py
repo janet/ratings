@@ -39,6 +39,7 @@ def load_movies():
             movie_title = seed_movie_line[1]
         else:
             movie_title = seed_movie_line[1][0:-7]
+            movie_title = movie_title.decode("latin-1")
 
         new_movie = Movie(
             movie_id=int(seed_movie_line[0]),
@@ -59,7 +60,7 @@ def load_ratings():
 
     for line in seed_rating_file:
         row_count += 1
-        
+
         line = line.rstrip()
         seed_rating_line = line.split("\t")
         
@@ -80,6 +81,6 @@ def load_ratings():
 if __name__ == "__main__":
     connect_to_db(app)
 
-    load_users()
+    # load_users()
     load_movies()
-    load_ratings()
+    # load_ratings()
