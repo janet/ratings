@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Login</h1>
 
-<form action="/add_user">
-Email: <input type="text" name="email" id="login_form_email"><br>
-Password: <input type="password" name="password" id="login_form_password"><br>
-<input type="submit">
+
+<form action="/process_login" method="POST">
+    <h1>Please login</h1>
+    <label for="email-field">Email:</label>
+    <input type="text" 
+            name="email" 
+            id="login_form_email"
+            required
+            placeholder="Email Address"><br>
+
+    <label for="password-field">Password:</label>
+    <input type="password" 
+            name="password" 
+            id="login_form_password"
+            required
+            placeholder="Password"><br>
+
+    <input type="submit"
+            value="Login">
 </form>
 
 {% endblock %}

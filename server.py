@@ -37,9 +37,15 @@ def login():
 
     return render_template("login.html")
 
-@app.route('/add_user')
-def add_user():
-    """Add user with data from login form"""
+@app.route('/process_login', methods=['POST'])
+def process_login():
+    """Process login form: Authenticate user and if new user, add to database"""
+
+    email = request.form["email"]
+    password = request.form["password"]
+    
+
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
