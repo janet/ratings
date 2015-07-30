@@ -2,10 +2,16 @@
 {% block content %}
 <h2>User Detail</h2>
 <p>
-<label for="user-id">User ID: {% user_id %}</label><br>
-<label for="email-field">Email: {% user_email %}</label><br>
-<label for="age">Age: {% user_age %}</label><br>
-<label for="zipcode">Zip code: {% user_zipcode %}</label>
+<label for="user-id">User ID: {{ user_id }}</label><br>
+<label for="email-field">Email: {{ user_email }}</label><br>
+<label for="age">Age: {{ user_age }}</label><br>
+<label for="zipcode">Zip code: {{ user_zipcode }}</label>
 </p>
+
+<ul>
+    {% for movie_title, movie_score in user_ratings %}
+        <li>{{ movie_title }}: {{ movie_score }} </li>
+    {% endfor %}
+</ul>
 
 {% endblock %}

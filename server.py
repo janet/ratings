@@ -39,14 +39,14 @@ def user_detail(user_id):
     """Show user detail including list of movies they have rated."""
 
     user_object = User.query.filter_by(user_id=user_id).one()
-    print "line 42", user_object
+    
 
-    user_ratings = Rating.query.filter_by(user_id=user_id).all()
-    print "THIS IS THE USER OBJECT ID: ", user_object.user_id
-
+    # user_ratings = Rating.query.filter_by(user_id=user_id).all()
+    user_ratings = db.session.query(Movie.title, Rating.score).join(Rating).filter(Rating.user_id == user_id).all()
+    
+    
     return render_template("user_detail.html", 
         user_id=user_object.user_id,
-        # user_id=1,
         user_email=user_object.email,
         user_age=user_object.age, 
         user_zipcode=user_object.zipcode, 
@@ -91,7 +91,7 @@ def process_login():
     #created new user or validated existing user password and redirecting to home
     flash("Logged in")
 
-    return redirect('/') 
+    return redirect('/users/' + str(loggedin_user_id)) 
 
 @app.route('/logout')
 def logout():
