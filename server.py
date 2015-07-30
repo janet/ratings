@@ -7,6 +7,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import User, Rating, Movie, connect_to_db, db
 
+from sqlalchemy.orm.exc import NoResultFound
+
 
 app = Flask(__name__)
 
@@ -52,14 +54,15 @@ def process_login():
         else:
             loggedin_user_id = user_queried.user_id
 
-    except:
+    except NoResultFound:
         new_user = User(
-        email=email_entered,
-        password=password_entered
+            email=email_entered,
+            password=password_entered
         )
 
         db.session.add(new_user)
         db.session.commit()
+        # db.session.flush()
         loggedin_user_id = new_user.user_id
 
     #adding logged in user to session
@@ -67,7 +70,9 @@ def process_login():
 
     #created new user or validated existing user password and redirecting to home
     flash("Logged in")
-    return redirect('/') 
+
+    return index()
+    # return redirect('/') 
 
 @app.route('/logout')
 def logout():
