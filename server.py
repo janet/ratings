@@ -33,6 +33,22 @@ def user_list():
     users = User.query.all()
     return render_template("user_list.html", users=users)
 
+@app.route('/users/<int:user_id>')
+def user_detail(user_id_received):
+    """Show user detail including list of movies they have rated."""
+
+    user_object = User.query.filter_by(user_id=user_id_received).one()
+
+    user_ratings = Ratings.query.filter_by(user_id=user_id_received).all()
+
+    return render_template("user_detail.html", 
+        user_id=user_object.user_id,
+        user_email=user_object.email,
+        user_age=user_object.age, 
+        user_zipcode=user_object.zipcode, 
+        user_ratings=user_ratings)
+
+
 @app.route('/login')
 def login():
     """Login form for user entry of their data"""
@@ -71,8 +87,7 @@ def process_login():
     #created new user or validated existing user password and redirecting to home
     flash("Logged in")
 
-    return index()
-    # return redirect('/') 
+    return redirect('/') 
 
 @app.route('/logout')
 def logout():
