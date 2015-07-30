@@ -24,6 +24,7 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Homepage."""
 
+    session["user_id"] = None
     return render_template("homepage.html")
 
 @app.route('/users')
@@ -34,15 +35,18 @@ def user_list():
     return render_template("user_list.html", users=users)
 
 @app.route('/users/<int:user_id>')
-def user_detail(user_id_received):
+def user_detail(user_id):
     """Show user detail including list of movies they have rated."""
 
-    user_object = User.query.filter_by(user_id=user_id_received).one()
+    user_object = User.query.filter_by(user_id=user_id).one()
+    print "line 42", user_object
 
-    user_ratings = Ratings.query.filter_by(user_id=user_id_received).all()
+    user_ratings = Rating.query.filter_by(user_id=user_id).all()
+    print "THIS IS THE USER OBJECT ID: ", user_object.user_id
 
     return render_template("user_detail.html", 
         user_id=user_object.user_id,
+        # user_id=1,
         user_email=user_object.email,
         user_age=user_object.age, 
         user_zipcode=user_object.zipcode, 
