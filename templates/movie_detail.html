@@ -7,6 +7,14 @@
 <label for="imdb-link"></label><a href="{{ movie.imdb_url }}">IMDB Link</a><br>
 </p>
 
+{% if session['user_id'] %}
+<form action="/process_rating">
+    <label for="movie_rating">Please rate this movie: </label>
+    <input type="number" min="1" max="5" step="1" name="movie_rating">
+<input type="submit" name="rating_submit">
+</form>
+{% endif %}
+
 <ul>
     {% for rating in movie.ratings %}
         <li>User ID {{ rating.user_id }}: Score {{ rating.score }} </li>

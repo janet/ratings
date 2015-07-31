@@ -24,7 +24,10 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Homepage."""
 
-    session["user_id"] = None
+    if session["user_id"]:
+        pass
+    else:
+        session["user_id"] = None
     return render_template("homepage.html")
 
 @app.route('/users')
@@ -69,6 +72,12 @@ def movie_detail(movie_id):
 
     return render_template("movie_detail.html", 
         movie=movie)
+
+@app.route('/process_rating')
+def process_rating():
+    """Process movie rating input by user. Add new rating or update existing rating."""
+
+    pass
 
 @app.route('/login')
 def login():
