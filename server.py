@@ -73,11 +73,29 @@ def movie_detail(movie_id):
     return render_template("movie_detail.html", 
         movie=movie)
 
-@app.route('/process_rating')
+@app.route('/process_rating', methods=["POST"])
 def process_rating():
     """Process movie rating input by user. Add new rating or update existing rating."""
 
-    pass
+    movie_rating = request.form.get('movie_rating')
+    movie_id = request.form.get('movie_id')
+    user_id = session['user_id']
+
+    #does user rating exist for this movie
+    try:
+        rating_object = Rating.query.filter_by(user_id=user_id, movie_id=movie_id).one()
+        rating_object.score = movie_rating
+    except NoResultFound:
+        new_rating = Rating(
+        movie_id=movie_id,
+        user_id=user_id,
+        score=movie_rating
+        )
+
+        db.session.add(new_rating)
+    db.session.commit()
+      
+    return redirect('/movies/' + movie_id)
 
 @app.route('/login')
 def login():

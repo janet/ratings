@@ -2,15 +2,16 @@
 {% block content %}
 <h2>Movie Detail</h2>
 <p>
-<label for="title">Title: {{ movie.title }}</label><br>
-<label for="released-at">Release Date: {{ movie.released_at }}</label><br>
-<label for="imdb-link"></label><a href="{{ movie.imdb_url }}">IMDB Link</a><br>
+Title: {{ movie.title }}<br>
+Release Date: {{ movie.released_at }}<br>
+<a href="{{ movie.imdb_url }}">IMDB Link</a><br>
 </p>
 
 {% if session['user_id'] %}
-<form action="/process_rating">
+<form action="/process_rating" method="POST">
     <label for="movie_rating">Please rate this movie: </label>
     <input type="number" min="1" max="5" step="1" name="movie_rating">
+    <input hidden type="integer" value="{{ movie.movie_id }}" name="movie_id">
 <input type="submit" name="rating_submit">
 </form>
 {% endif %}
