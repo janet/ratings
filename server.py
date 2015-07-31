@@ -52,6 +52,23 @@ def user_detail(user_id):
         user_zipcode=user_object.zipcode, 
         user_ratings=user_ratings)
 
+@app.route('/movies')
+def movie_list():
+    """Show list of movies."""
+
+    movies = Movie.query.order_by(Movie.title).all()
+
+    return render_template("movie_list.html", movies=movies)
+
+
+@app.route('/movies/<int:movie_id>')
+def movie_detail(movie_id):
+    """Show movie detail including list of ratings."""
+
+    movie = Movie.query.filter_by(movie_id=movie_id).one()
+
+    return render_template("movie_detail.html", 
+        movie=movie)
 
 @app.route('/login')
 def login():

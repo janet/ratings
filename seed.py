@@ -45,7 +45,7 @@ def load_movies():
             movie_id=int(seed_movie_line[0]),
             title=movie_title,
             released_at=released_at_date,
-            imdb_url=seed_movie_line[3]
+            imdb_url=seed_movie_line[4]
             )
         
         db.session.add(new_movie)
